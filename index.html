@@ -393,77 +393,67 @@
       .hero-mark { width: 82vw; }
       .hero-loc { font-size: 8.5px; letter-spacing: 0.13em; max-width: 82vw; text-align: center; }
 
-      /* ── Disable 3D scroll: flatten track, sticky, and card ── */
-      #scroll-track  { height: auto; }
-      #scroll-sticky { position: static; height: auto; display: block; background: var(--black); }
+      /* ── Scroll card: full-width, keep sticky 3D mechanism active ── */
       #scroll-card {
-        width: 100%; max-width: 100%; height: auto;
-        transform: none !important;
-        border-radius: 0;
-        border-left: none; border-right: none;
-        box-shadow: none;
-        overflow: visible;
+        width: 100vw; max-width: 100%; height: 92vh;
+        border-radius: 0; border-left: none; border-right: none;
       }
 
-      /* ── All panels: stack vertically, auto height (no dead space) ── */
-      .panel,
-      .panel.active,
-      .panel.leaving {
-        position: relative !important;
-        opacity: 1 !important;
-        transform: none !important;
-        pointer-events: auto !important;
-        height: auto !important;
-        min-height: 0 !important;
-        padding: 72px 22px 60px;
-        border-bottom: 1px solid rgba(200,200,192,0.07);
-        overflow: hidden;
-      }
+      /* ── Panels: keep absolute positioning, reduce padding ── */
+      .panel { padding: 36px 16px 40px; }
 
-      /* ── Panel 0 – prob-cards: 1 col ── */
-      .prob-cards { grid-template-columns: 1fr; gap: 10px; margin-top: 18px; }
+      /* ── Panel 0 – headings + prob-cards: 1 col ── */
+      .p-problem h2 { font-size: clamp(18px, 5vw, 28px); }
+      .p-problem .sub-hed { font-size: clamp(14px, 3.5vw, 20px); }
+      .prob-cards { grid-template-columns: 1fr; gap: 8px; margin-top: 14px; }
+      .pcard { padding: 14px 12px; }
+      .pcard h3 { font-size: 13px; margin-bottom: 5px; }
+      .pcard p { font-size: 13px; }
 
       /* ── Panel 1 – thesis grid: 1 col ── */
-      .thesis-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 18px; }
+      .thesis-grid { grid-template-columns: 1fr; gap: 10px; margin-top: 14px; }
+      .feat-t { font-size: 14px; }
+      .feat-d { font-size: 14px; }
 
-      /* ── Panel 2 – econ-split: stack, transparent so cosmos shows through ── */
-      .econ-split {
-        position: relative !important;
-        display: flex; flex-direction: column;
-        height: auto !important;
+      /* ── Panel 2 – make content wrapper fill panel; econ-split goes column ── */
+      .panel[data-idx="2"] > div[style*="z-index:2"] {
+        position: absolute !important; inset: 0 !important; overflow: hidden;
       }
-      .econ-l { padding: 0 0 32px !important; background: transparent !important; }
-      .econ-r { padding: 32px 0 0 !important; background: transparent !important; border-top: 1px solid rgba(200,200,192,0.1); }
-      .ctable { font-size: 11px; width: 100%; }
-      .ctable th, .ctable td { padding: 8px 4px; font-size: 10.5px; }
+      .econ-split {
+        position: static !important; inset: auto !important;
+        display: flex !important; flex-direction: column !important;
+        height: 100% !important; grid-template-columns: none !important;
+      }
+      .econ-l { flex: 1; padding: 32px 16px 14px !important; background: transparent !important; justify-content: flex-start !important; }
+      .econ-r { flex: 1; padding: 14px 16px 28px !important; background: transparent !important; justify-content: flex-start !important;
+                border-top: 1px solid rgba(200,200,192,0.14); }
+      .ctable th, .ctable td { padding: 5px 3px; font-size: 9.5px; }
 
       /* ── Panel 3 – scenario cards: 1 col ── */
-      .sc-cards { grid-template-columns: 1fr; gap: 10px; }
-      .sccard { padding: 20px 14px; }
+      .sc-cards { grid-template-columns: 1fr; gap: 8px; margin-top: 14px; }
+      .sccard { padding: 14px 12px; }
+      .sc-num { font-size: 20px; }
 
-      /* ── Panel 4 – eq list ── */
-      .eq { padding: 14px 0; font-size: 18px; }
+      /* ── Panel 4 – talent rows: compact ── */
+      .tlayer { padding: 10px 0; gap: 12px; }
+      .tl-t { font-size: 13px; margin-bottom: 3px; }
+      .tl-b { font-size: 13px; line-height: 1.45; }
+      .eq { padding: 12px 14px; font-size: 15px; margin-top: 14px; }
 
-      /* ── Panel 5 – full-bleed: restore padding, flow media-copy ── */
-      .panel.panel-media { padding: 72px 22px 60px !important; }
-      .media-copy {
-        position: relative !important;
-        bottom: auto !important;
-        left: auto !important;
-        right: auto !important;
-        padding: 0 !important;
-      }
+      /* ── Panel 5 – media-copy: bottom-anchored with mobile padding ── */
+      .media-copy { padding: 0 16px 40px !important; }
 
-      /* ── Panel 6 – fix height:100% wrapper + double-padding from inherit ── */
-      .panel[data-idx="6"] > div[style*="justify-content"] {
-        height: auto !important;
-        padding: 0 !important;
-      }
-      .cat-grid { grid-template-columns: 1fr; gap: 12px; }
-      .catcard  { height: 220px; }
+      /* ── Panel 6 – remove inherited double-padding; catcards: 1 col ── */
+      .panel[data-idx="6"] > div[style*="justify-content"] { padding: 0 !important; }
+      .cat-grid { grid-template-columns: 1fr; gap: 8px; margin-top: 14px; }
+      .catcard  { height: 138px; }
 
-      /* ── Progress dots: hidden ── */
-      .pdots { display: none; }
+      /* ── Section labels + gold rule ── */
+      .slabel { font-size: 9px; margin-bottom: 14px; }
+      .grule { margin: 12px 0; }
+
+      /* ── Progress dots ── */
+      .pdots { bottom: 12px; }
 
       /* ── Closing ── */
       #closing { padding: 80px 24px 100px; min-height: 100svh; height: auto; }
@@ -897,8 +887,6 @@
   /* ── Scroll tick (RAF-throttled) ───────────────────────────── */
   function tick() {
     nav.classList.toggle('scrolled', window.scrollY > 70);
-    if (window.innerWidth <= 768) return; /* mobile: panels stack, no 3D */
-
     var rect = track.getBoundingClientRect();
     var span = track.offsetHeight - window.innerHeight;
     if (span <= 0) return;
